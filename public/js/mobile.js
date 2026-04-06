@@ -4,6 +4,8 @@ const form = document.getElementById('healthForm');
 const input = document.getElementById('wordInput');
 const submitBtn = document.getElementById('submitBtn');
 const toast = document.getElementById('toast');
+const choiceArea = document.getElementById('choiceArea');
+const surveyCard = document.getElementById('surveyCard');
 
 // 1. 페이지 로드 시 localStorage로 이미 제출했는지 확인
 if (localStorage.getItem('healthCloudSubmitted')) {
@@ -15,12 +17,43 @@ if (localStorage.getItem('healthCloudSubmitted')) {
 }
 
 function showCompletedState() {
-    if(form) {
-        form.innerHTML = '<div style="text-align:center; padding: 40px 0; color: #111827; font-size: 18px; font-weight: 600; line-height: 1.8;">참여가 완료되었습니다!<br><span style="font-size:14px; color:#6b7280; font-weight:400;">대형 스크린을 확인해주세요 🎉</span></div>';
+    if(choiceArea) {
+        choiceArea.innerHTML = '<div style="text-align:center; padding: 40px 0; color: #111827; font-size: 18px; font-weight: 600; line-height: 1.8;">참여가 완료되었습니다!<br><span style="font-size:14px; color:#6b7280; font-weight:400;">대형 스크린을 확인해주세요 🎉</span></div>';
     }
 }
 
-// 서버 에러(금지어 등) 처리 — alert() 대신 빨간 토스트로 표시
+function submitWord(word) {
+    // localStorage로 중복 제출 차단
+    if (localStorage.getItem('healthCloudSubmitted')) {
+        showToast('이미 참여하셨습니다.', true);
+        setTimeout(() => showCompletedState(), 1200);
+        return;
+    }
+    if (word && word.trim()) {
+        socket.emit('submit_word', word.trim());
+    }
+}
+
+// 프리셋 버튼 클릭 처리
+document.querySelectorAll('.choice-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        const word = btn.getAttribute('data-word');
+        submitWord(word);
+    });
+});
+
+// 기타 직접 입력 폼
+if (form) {
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const word = input.value.trim();
+        if (word) {
+            submitWord(word);
+        }
+    });
+}
+
+// 서버 에러(금지어 등) 처리
 socket.on('error_message', (msg) => {
     showToast(msg, true);
 });
@@ -35,26 +68,6 @@ socket.on('submit_success', () => {
         showCompletedState();
     }, 1500);
 });
-
-if (form) {
-    form.addEventListener('submit', (e) => {
-        e.preventDefault();
-
-        // localStorage로 중복 제출 차단
-        if (localStorage.getItem('healthCloudSubmitted')) {
-            showToast('이미 참여하셨습니다.', true);
-            setTimeout(() => showCompletedState(), 1200);
-            return;
-        }
-
-        const word = input.value.trim();
-        if (word) {
-            socket.emit('submit_word', word);
-            submitBtn.style.transform = 'scale(0.95)';
-            setTimeout(() => submitBtn.style.transform = '', 150);
-        }
-    });
-}
 
 let toastTimeout;
 function showToast(message, isError) {
