@@ -44,13 +44,15 @@ app.get('/api/clear', (req, res) => {
 
 app.get('/api/qr', async (req, res) => {
     try {
-        const ip = getLocalIp();
-        const url = `http://${ip}:${PORT}/`;
+        // Render.com 같은 클라우드에서는 자동으로 RENDER_EXTERNAL_URL 값을 제공합니다.
+        const publicUrl = process.env.RENDER_EXTERNAL_URL || `http://${getLocalIp()}:${PORT}`;
+        const url = publicUrl.endsWith('/') ? publicUrl : `${publicUrl}/`;
+        
         const qrCodeDataUrl = await QRCode.toDataURL(url, {
             errorCorrectionLevel: 'H',
             margin: 1,
             color: {
-                dark: '#2563eb',
+                dark: '#111827', // 이제 완벽한 검정 컬러로 생성됩니다!
                 light: '#ffffff'
             }
         });
