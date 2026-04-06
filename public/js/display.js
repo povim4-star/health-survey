@@ -35,8 +35,8 @@ let wordData = {};
 let drawTimeout = null;
 
 const colorPalette = [
-    '#111827', '#1f2937', '#374151', '#4b5563', '#6b7280', 
-    '#000000', '#171717', '#262626', '#404040', '#525252'
+    '#e74c3c', '#e67e22', '#f1c40f', '#2ecc71', '#1abc9c',
+    '#3498db', '#2980b9', '#9b59b6', '#8e44ad', '#e91e63'
 ];
 
 function getStringHash(str) {
