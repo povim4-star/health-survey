@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>건강 관리 비법 - 워드클라우드</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body class="display-mode">
+    <div class="survey-card">
+        <header class="display-header">
+            <div class="display-title-wrapper">
+                <div class="survey-badge">실시간 결과</div>
+                <h1 class="display-title">Q. 당신만의 특별한<br>건강 관리 비법은 무엇인가요?</h1>
+            </div>
+        </header>
+
+        <main class="wordcloud-container">
+            <canvas id="wordcloud-canvas"></canvas>
+            <div id="emptyState" class="empty-state">
+            </div>
+
+            <button id="clearBtn" class="clear-btn">초기화</button>
+        </main>
+    </div>
+
+    <!-- Socket.IO and WordCloud2.js Libraries -->
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/wordcloud2.js/1.2.2/wordcloud2.min.js"></script>
+    <script src="js/display.js"></script>
+</body>
+
+</html>
