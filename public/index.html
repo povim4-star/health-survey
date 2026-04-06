@@ -1,32 +1,52 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>건강 관리 비법 공유</title>
     <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
     <div class="container">
-        <div class="clean-card">
+        <div class="clean-card" id="surveyCard">
             <div class="header">
                 <h1>나만의 건강비법</h1>
-                <p>여러분의 건강 관리 꿀팁을<br>단어로 공유해주세요.</p>
+                <p>여러분의 건강 관리 꿀팁을<br>하나만 골라주세요!</p>
             </div>
-            <form id="healthForm">
-                <div class="input-group">
-                    <input type="text" id="wordInput" placeholder="예: 매일 물 2리터 마시기" autocomplete="off" maxlength="30" required>
-                    <div class="hint">최대 30자까지 입력 가능합니다.</div>
+
+            <div id="choiceArea">
+                <div class="choice-grid">
+                    <button class="choice-btn" data-word="물 많이 마시기">💧 물 많이 마시기</button>
+                    <button class="choice-btn" data-word="규칙적인 수면">😴 규칙적인 수면</button>
+                    <button class="choice-btn" data-word="매일 운동하기">🏃 매일 운동하기</button>
+                    <button class="choice-btn" data-word="채소 많이 먹기">🥗 채소 많이 먹기</button>
+                    <button class="choice-btn" data-word="스트레스 관리">🧘 스트레스 관리</button>
+                    <button class="choice-btn" data-word="아침 꼭 먹기">🍚 아침 꼭 먹기</button>
+                    <button class="choice-btn" data-word="정기 검진">🏥 정기 검진</button>
+                    <button class="choice-btn" data-word="스마트폰 줄이기">📵 스마트폰 줄이기</button>
                 </div>
-                <button type="submit" class="submit-btn" id="submitBtn">
-                    전송하기
-                </button>
-            </form>
-            <div id="toast" class="toast">등록되었습니다</div>
+
+                <div class="divider">
+                    <span>또는 직접 입력</span>
+                </div>
+
+                <form id="healthForm">
+                    <div class="input-group">
+                        <input type="text" id="wordInput" placeholder="나만의 건강 비법을 적어주세요" maxlength="25" autocomplete="off">
+                    </div>
+                    <button type="submit" id="submitBtn" class="submit-btn">전송하기</button>
+                </form>
+            </div>
         </div>
+
+        <div id="toast" class="toast">전송 완료!</div>
     </div>
+
     <script src="/socket.io/socket.io.js"></script>
     <script src="js/mobile.js"></script>
 </body>
+
 </html>
