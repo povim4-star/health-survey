@@ -165,7 +165,7 @@ body.display-mode {
     flex-direction: column;
     overflow: hidden;
     position: relative;
-    border-top: 12px solid #111827;
+    border-top: none;
 }
 
 .display-header {
