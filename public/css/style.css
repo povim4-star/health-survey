@@ -115,6 +115,61 @@ input::placeholder {
     transform: scale(0.98);
 }
 
+/* Choice Buttons */
+.choice-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.choice-btn {
+    padding: 14px 12px;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    background: #f9fafb;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-main);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+    line-height: 1.4;
+}
+
+.choice-btn:hover {
+    border-color: var(--primary);
+    background: #f3f4f6;
+}
+
+.choice-btn:active {
+    transform: scale(0.96);
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+}
+
+.divider {
+    display: flex;
+    align-items: center;
+    margin: 20px 0;
+    gap: 12px;
+}
+
+.divider::before,
+.divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border-color);
+}
+
+.divider span {
+    font-size: 13px;
+    color: var(--text-muted);
+    white-space: nowrap;
+}
+
 .toast {
     position: fixed;
     bottom: 30px;
