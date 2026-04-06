@@ -15,7 +15,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Store word frequencies
 let wordCounts = {};
-const submittedIPs = new Set();
 
 // 🛑 여기에 차단하고 싶은 단어(욕설, 비속어, 스팸 등)를 자유롭게 추가/수정하세요.
 const FORBIDDEN_WORDS = [
@@ -37,7 +36,6 @@ function getLocalIp() {
 
 app.get('/api/clear', (req, res) => {
     wordCounts = {};
-    submittedIPs.clear(); // 데이터 초기화 시 사람들의 참여 이력도 함께 초기화
     io.emit('update_data', wordCounts);
     res.json({ success: true, message: 'Data cleared' });
 });
@@ -69,20 +67,12 @@ io.on('connection', (socket) => {
     socket.emit('init_data', wordCounts);
 
     socket.on('submit_word', (word) => {
-        const clientIp = socket.handshake.address;
-
-        // 1. IP 중복 검사 (1인당 1회)
-        if (submittedIPs.has(clientIp)) {
-            socket.emit('error_message', '이미 참여하셨습니다! 1인당 한 번만 제출할 수 있습니다.');
-            return;
-        }
-
         if (!word || typeof word !== 'string') return;
         
         const cleanWord = word.trim().substring(0, 25);
         if (cleanWord.length === 0) return;
 
-        // 2. 금지어 검열 (문자열에 금지어가 포함되어 있는지 확인)
+        // 금지어 검열
         const isBanned = FORBIDDEN_WORDS.some(banned => cleanWord.toLowerCase().includes(banned.toLowerCase()));
         if (isBanned) {
             socket.emit('error_message', '부적절한 단어가 포함되어 있어 등록할 수 없습니다.');
@@ -91,9 +81,8 @@ io.on('connection', (socket) => {
 
         // 성공적으로 등록
         wordCounts[cleanWord] = (wordCounts[cleanWord] || 0) + 1;
-        submittedIPs.add(clientIp);
 
-        socket.emit('submit_success'); // 클라이언트로 성공 응답
+        socket.emit('submit_success');
         io.emit('update_data', wordCounts);
     });
 
