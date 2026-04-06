@@ -116,25 +116,31 @@ input::placeholder {
 }
 
 .toast {
-    position: absolute;
-    bottom: -60px;
+    position: fixed;
+    bottom: 30px;
     left: 50%;
-    transform: translateX(-50%);
+    transform: translateX(-50%) translateY(20px);
     background: var(--primary);
     color: white;
-    padding: 14px 28px;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: 500;
-    transition: all 0.3s ease;
+    padding: 16px 32px;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
     white-space: nowrap;
     opacity: 0;
     pointer-events: none;
+    z-index: 9999;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
 }
 
 .toast.show {
-    bottom: 30px;
     opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+.toast.error {
+    background: #ef4444;
 }
 
 /* Display Mode Styles - Survey Theme */
